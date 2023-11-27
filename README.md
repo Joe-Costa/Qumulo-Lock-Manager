@@ -6,6 +6,8 @@ This script provides a `tkinter` based GUI to list and close SMB locks on a Qumu
 
 Tested with `Python 3.9` on Mac OS 13
 
+** A GUI is required for use with a Linux client! **
+
 The script requires port 443 access to the Qumulo cluster.
 
 This script requires a valid session token for a user with the following RBAC privileges:
