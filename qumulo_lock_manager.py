@@ -44,6 +44,11 @@ class QumuloSMBLockManager:
         # Qumulo Cluster Login Information
         self.cluster_address = cluster
         self.token = token
+        self.headers = {
+            "Authorization": f"Bearer {self.token}",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
 
         # Create GUI components
         self.create_widgets()
@@ -117,23 +122,18 @@ class QumuloSMBLockManager:
 
     def find_handle(self):
         global handle_info
-        # This function lists all open file handles and returns the handle info of the selected fileID
+        # This function lists all open file handles and returns the handle info of the selected file ID
         # The entire JSON blob for the entry is needed by the API to close a handle
         # I should merge this with close_handle...
         for keys in handle_info:
-            if keys["file_number"] == str(fileID):
+            if keys["file_number"] == str(file_id):
                 self.close_handle(keys)
 
     def close_handle(self, handle):
         # This function closes the file handle selected in the GUI
         # I think that findHandle and closeHandle could be merged, but eh.
         url = f"https://{self.cluster_address}/api/v1/smb/files/close"
-        headers = {
-            "Authorization": f"Bearer {self.token}",
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        }
-        response = requests.post(url, headers=headers, json=[handle], verify=False)
+        response = requests.post(url, headers=self.headers, json=[handle], verify=False)
         if response.status_code == 200:
             self.refresh_locks()
             print(f"File handle of {handle['handle_info']['path']} has been closed")
@@ -143,10 +143,10 @@ class QumuloSMBLockManager:
 
     def select_item(self, event):
         # This grabs the File ID field of the line selected by the user in the UI
-        global fileID
+        global file_id
         curItem = self.lock_tree.focus()
         itemJson = self.lock_tree.item(curItem)
-        fileID = itemJson["values"][0]
+        file_id = itemJson["values"][0]
 
     def refresh_locks(self):
         # Clear previous data in the lock list
@@ -207,13 +207,9 @@ class QumuloSMBLockManager:
         global handle_info
 
         url = f"https://{self.cluster_address}/api/v1/smb/files/?resolve_paths=true"
-        headers = {
-            "Authorization": f"Bearer {self.token}",
-            "Accept": "application/json",
-        }
         
         # Get the initial API response
-        response = requests.get(url, headers=headers, verify=False).json()
+        response = requests.get(url, headers=self.headers, verify=False).json()
         handles = response['file_handles']
         next = response['paging']['next']
 
@@ -224,7 +220,7 @@ class QumuloSMBLockManager:
             
             # Loop to handle API pagination
             while next:
-                response = requests.get(url, headers=headers, verify=False).json()
+                response = requests.get(url, headers=self.headers, verify=False).json()
                 next = response['paging']['next']
                 if next != None:
                   url = f"https://{cluster_address}/api" + next
@@ -242,13 +238,9 @@ class QumuloSMBLockManager:
     def get_smb_locks(self):
         # Grab all currently held SMB locks 
         url = f"https://{self.cluster_address}/api/v1/files/locks/smb/share-mode/"
-        headers = {
-            "Authorization": f"Bearer {self.token}",
-            "Accept": "application/json",
-        }
         # Grab the inital API response
         try:
-            response = requests.get(url, headers=headers, verify=False)
+            response = requests.get(url, headers=self.headers, verify=False)
             after_cursor = response.json().get('paging',{})
         except:
             error = f"Error authenticating or reaching the cluster! {response.status_code} - {response.text}"
@@ -268,7 +260,7 @@ class QumuloSMBLockManager:
         # Note that this pagination behavior is very different from 
         # /v1/smb/files/?resolve_paths=true used in function self.path_loader
         while response.json().get('grants'):
-            response = requests.get(url, headers=headers, verify=False)
+            response = requests.get(url, headers=self.headers, verify=False)
             after_cursor = response.json().get('paging',{})
             if response.json().get('grants'):
                 smb_locks = {'grants': smb_locks['grants'] + response.json()['grants']}
