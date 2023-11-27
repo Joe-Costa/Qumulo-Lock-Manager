@@ -31,7 +31,6 @@ This script requires a valid session token for a user with the following RBAC pr
 
 `['PRIVILEGE_FS_LOCK_READ', 'PRIVILEGE_SMB_FILE_HANDLE_READ', 'PRIVILEGE_SMB_FILE_HANDLE_WRITE']`
 
-[How to get an Access Token](https://care.qumulo.com/hc/en-us/articles/360004600994-Authenticating-with-Qumulo-s-REST-API#acquiring-a-bearer-token-by-using-the-web-ui-0-3) (Qumulo Care article)
 
 ## Installation:
 
@@ -48,6 +47,9 @@ Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access To
 
 
 `token = "session-v1:etc..etc..etc"`
+
+[How to get an Access Token](https://care.qumulo.com/hc/en-us/articles/360004600994-Authenticating-with-Qumulo-s-REST-API#acquiring-a-bearer-token-by-using-the-web-ui-0-3) (Qumulo Care article)
+
 
 ## Operation:
 
