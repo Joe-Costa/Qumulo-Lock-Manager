@@ -2,7 +2,7 @@
 
 This script provides a `tkinter` based GUI to list and close SMB locks on a Qumulo cluster via the Qumulo REST API.  
 
-## Why close file handles and what happens on the clint when a file handle is closed?
+## Why close file handles and what happens on the client when a file handle is closed?
 
 The SMB protocol provides a system of locks which allow a client to set what kind of access it wants to a file stored in an SMB server.  Qumulo
 supports most of those locks, such as Exclusive Read or Exclusive Write, but in a shared envionment this could lead to situations where users are
