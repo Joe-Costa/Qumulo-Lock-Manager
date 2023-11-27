@@ -5,7 +5,7 @@ import requests
 import urllib3
 import sys
 
-version = "1.0.0"
+version = "1.0.0.1"
 who_am_i = ""
 
 # Update with your cluster address
@@ -38,10 +38,9 @@ class StdoutRedirector:
 class QumuloSMBLockManager:
     def __init__(self, master, token=token, cluster=cluster_address):
         self.master = master
-        who_am_i = user_info['name']
-        self.master.title(f"Qumulo SMB Lock Manager {version}     ---     Auth User: {who_am_i}")
 
         # Qumulo Cluster Login Information
+        who_am_i = user_info['name']
         self.cluster_address = cluster
         self.token = token
         self.headers = {
@@ -49,6 +48,9 @@ class QumuloSMBLockManager:
             "Accept": "application/json",
             "Content-Type": "application/json",
         }
+
+        # GUI Window title info
+        self.master.title(f"Qumulo SMB Lock Manager {version} - Cluster: {self.cluster_address}     Auth User: {who_am_i}")
 
         # Create GUI components
         self.create_widgets()
