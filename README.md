@@ -31,7 +31,7 @@ Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access To
 
 ## Operation:
 
-Run the script with `./path/to/script/qumulo_lock_manager.py`
+Run the script with `/path/to/script/qumulo_lock_manager.py`
 
 - Refresh the locks by clicking on the `List Locks` button
 - Search for paths by typing in a part of the desired path and clicking on the `Search by Path` button
