@@ -64,6 +64,7 @@ class QumuloSMBLockManager:
 
     @staticmethod
     def verify_rbac_privileges():
+        # Verify the user has the correct RBAC privileges to perform the required API calls
         user_rbac_privileges = user_info['privileges']
         matching_rights = [ x for x in required_rights if x in user_rbac_privileges]
         if set(matching_rights) == set(required_rights):
