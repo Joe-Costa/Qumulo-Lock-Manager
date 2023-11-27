@@ -10,7 +10,9 @@ Tested with `Python 3.9` on Mac OS 13
 
 The script requires `port 443` access to the Qumulo cluster.
 
-The Python package `Tk` is required.
+The Python package `Tk` is required, check if it is available by running this on a terminal:
+
+`python -m tkinter`
 
 Linux:
 
