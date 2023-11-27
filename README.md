@@ -14,11 +14,11 @@ The Python package `Tk` is required.
 
 Linux:
 
-- sudo apt-get install python3-tk
+- `sudo apt-get install python3-tk`
 
 Mac:
 
-- brew install python-tk@3.9
+- `brew install python-tk@3.9`
 
 This script requires a valid session token for a user with the following RBAC privileges:
 
