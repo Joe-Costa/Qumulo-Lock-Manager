@@ -6,11 +6,11 @@ This script provides a `tkinter` based GUI to list and close SMB locks on a Qumu
 
 The SMB protocol provides a system of locks which allow a client to set what kind of access it wants to a file stored in an SMB server.  Qumulo
 supports most of those locks, such as Exclusive Read or Exclusive Write, but in a shared envionment this could lead to situations where users are
-prevented from saving files or access files that others have locked.
+prevented from saving files or accessing files that others have locked.
 
 In those situations the storage administrator could opt to force the closure of this file handle to allow other users access to the file.
 
-A very common scenario is when a user can't save an Excel spreasheet that another user has opened, or when the Mac Finder's Quick Look file previewer
+Some very common example scenarios are when a user can't save an Excel spreasheet that another user has opened, or when the Mac Finder's Quick Look file previewer
 triggered by one user prevents another user from saving a Photoshop or other graphics file.
 
 Selecting a file in the GUI and clicking on `Close File` closes the file handle on the Qumulo cluster side, but the client will still 
@@ -19,7 +19,7 @@ have the file open on its end.
 The client is left with a "stale" version of the file that might be out of sync with the version stored in the cluster.  
 The client will likely need to close the file locally and reopen it from the Qumulo cluster to get back in sync with the stored
 version of the file.  There is a possibility that the user could lose work in progress if the file handle is closed before the file has been saved,
-so use caution when closing file handles.
+so use caution when closing file handles!
 
 
 ## Requirements:
