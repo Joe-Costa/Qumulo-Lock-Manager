@@ -14,9 +14,14 @@ The Python package `Tk` is required, check if it is available by running this on
 
 `python -m tkinter`
 
+Install Tk if needed:
+
 Linux:
 
-- `sudo apt-get install python3-tk`
+- `sudo apt-get install python3-tk`  (Ubuntu, Debian)
+- `sudo yum install -y tkinter tk-devel`  (RHEL, CentOS, Oracle)
+- `sudo dnf install python3-tkinter` (Fedora)
+- `sudo pacman -S tk`  (Arch)
 
 Mac:
 
