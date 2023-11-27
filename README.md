@@ -36,17 +36,16 @@ This script requires a valid session token for a user with the following RBAC pr
 
 Install the `requirements.txt` file:
 
-`pip -r install requirements.txt``
+`pip -r install requirements.txt`
 
 Copy `qumulo_lock_manager.py` to your machine, make it executable with `chmod +x qumulo_lock_manager.py`
 
 
 Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access Token on these variables:
 
-`cluster_address = "your.cluster.here.com"`
+- `cluster_address = "your.cluster.here.com"`
 
-
-`token = "session-v1:etc..etc..etc"`
+- `token = "session-v1:etc..etc..etc"`
 
 [How to get an Access Token](https://care.qumulo.com/hc/en-us/articles/360004600994-Authenticating-with-Qumulo-s-REST-API#acquiring-a-bearer-token-by-using-the-web-ui-0-3) (Qumulo Care article)
 
