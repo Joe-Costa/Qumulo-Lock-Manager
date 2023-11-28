@@ -13,13 +13,13 @@ In those situations the storage administrator could opt to force the closure of 
 Some very common example scenarios are when a user can't save an Excel spreasheet that another user has opened, or when the Mac Finder's Quick Look file previewer
 triggered by one user prevents another user from saving a Photoshop or other graphics file.
 
-Selecting a file in the GUI and clicking on `Close File` closes the file handle on the Qumulo cluster side, but the client will still 
-have the file open on its end.  
+Selecting and closing file handle via this app will close the handle on the Qumulo cluster side, but the client will still have the file open on its end, there will be no
+perceptible change from the perspective of the client holding the lock.  
 
-The client is left with a "stale" version of the file that might be out of sync with the version stored in the cluster.  
-The client will likely need to close the file locally and reopen it from the Qumulo cluster to get back in sync with the stored
-version of the file.  There is a possibility that the user could lose work in progress if the file handle is closed before the file has been saved,
-so use caution when closing file handles!
+The client is left with a "stale" version of the file that might be out of sync with the version stored in the cluster.  This client will then likely need to close the file 
+locally and reopen it from the Qumulo cluster to get back in sync with the stored version of the file.  
+
+**There is a possibility that the user could lose work in progress** if the file handle is closed before the file has been saved, so use caution when closing file handles!
 
 
 ## Requirements:
