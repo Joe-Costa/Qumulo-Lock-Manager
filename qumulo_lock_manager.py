@@ -5,7 +5,7 @@ import requests
 import urllib3
 import sys
 
-version = "1.0.0.1"
+version = "1.0.0.2"
 who_am_i = ""
 
 # Update with your cluster address
@@ -188,8 +188,12 @@ class QumuloSMBLockManager:
             try:
               file_path = file_number_to_path[id]
             except:
-                # temp error message
-                print(f"I BROKE HERE {id}")
+                # A common cause of errors here would be trying to resolve the path of a file handle that has 
+                # already been closed. We could simplay pass, but I'll leave a message in case something else
+                # is the cause.  We might see this when dealign with very many open file handles and the
+                # 'List Locks' action being triggered and many handles are beign closed.
+                print(f"File Handle {id} already closed?")
+                pass
             if filter_text in file_path.lower():
                 self.lock_tree.insert(
                     "",
