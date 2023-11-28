@@ -74,6 +74,9 @@ Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access To
 
 Run the script with `/path/to/script/qumulo_lock_manager.py`
 
+**_Please Note!_** File paths are resolved from the root of the Qumulo file system and might be different from what the end user sees!
+**_Always_** double check before closing any open file handles!!
+
 - Refresh the locks by clicking on the `List Locks` button
 - Search for paths by typing in a part of the desired path and clicking on the `Search by Path` button
   * The Locks view will automatically refresh   
