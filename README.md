@@ -45,7 +45,7 @@ Linux:
 
 Mac:
 
-- `brew install python-tk@3.9`
+- `brew install python-tk`
 
 Windows:
 
