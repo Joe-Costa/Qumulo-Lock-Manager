@@ -67,7 +67,11 @@ Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access To
 
 - `token = "session-v1:etc..etc..etc"`
 
-[How to get an Access Token](https://care.qumulo.com/hc/en-us/articles/360004600994-Authenticating-with-Qumulo-s-REST-API#acquiring-a-bearer-token-by-using-the-web-ui-0-3) (Qumulo Care article)
+## Helpful Qumulo Care Articles:
+
+[How to get an Access Token](https://care.qumulo.com/hc/en-us/articles/360004600994-Authenticating-with-Qumulo-s-REST-API#acquiring-a-bearer-token-by-using-the-web-ui-0-3) 
+
+[Qumulo Role Based Access Control](https://care.qumulo.com/hc/en-us/articles/360036591633-Role-Based-Access-Control-RBAC-with-Qumulo-Core#managing-roles-by-using-the-web-ui-0-7)
 
 
 ## Operation:
