@@ -19,7 +19,7 @@ perceptible change from the perspective of the client holding the lock.
 The client is left with a "stale" version of the file that might be out of sync with the version stored in the cluster.  This client will then likely need to close the file 
 locally and reopen it from the Qumulo cluster to get back in sync with the stored version of the file.  
 
-**There is a possibility that the user could lose work in progress** if the file handle is closed before the file has been saved, so use caution when closing file handles!
+**_There is a possibility that the user which held the lock could lose work in progress_** if the file handle is closed before the file has been saved, so use caution when closing file handles!
 
 
 ## Requirements:
