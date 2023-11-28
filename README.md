@@ -56,7 +56,7 @@ This script requires a valid session token for a user with the following RBAC pr
 
 Install the `requirements.txt` file:
 
-`pip -r install requirements.txt`
+`pip install -r requirements.txt`
 
 Copy `qumulo_lock_manager.py` to your machine, make it executable with `chmod +x qumulo_lock_manager.py`
 
