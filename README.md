@@ -70,7 +70,7 @@ Copy `qumulo_lock_manager.py` to your machine, make it executable with `chmod +x
 
 Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access Token on these variables:
 
-- `cluster_address = "your.cluster.here.com"`
+- `cluster_address = "your.cluster.here.com"`  (FQDN or IP address)
 
 - `token = "session-v1:etc..etc..etc"`
 
