@@ -47,6 +47,11 @@ Mac:
 
 - `brew install python-tk@3.9`
 
+Windows:
+
+- The python insallation from the [Microsoft App Store](https://apps.microsoft.com/detail/9PJPW5LDXLZ5?hl=en-US&gl=US) contains the needed Tk dependencies
+
+
 This script requires a valid session token for a user with the following RBAC privileges:
 
 `['PRIVILEGE_FS_LOCK_READ', 'PRIVILEGE_SMB_FILE_HANDLE_READ', 'PRIVILEGE_SMB_FILE_HANDLE_WRITE']`
@@ -54,7 +59,7 @@ This script requires a valid session token for a user with the following RBAC pr
 
 ## Installation:
 
-Install the `requirements.txt` file:
+Install the `requirements.txt` file (Linux, Mac and Windows)
 
 `pip install -r requirements.txt`
 
