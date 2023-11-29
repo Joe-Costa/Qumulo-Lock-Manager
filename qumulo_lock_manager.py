@@ -5,7 +5,7 @@ import requests
 import urllib3
 import sys
 
-version = "1.0.0.2"
+version = "1.0.0.3"
 who_am_i = ""
 
 # Update with your cluster address
@@ -116,7 +116,7 @@ class QumuloSMBLockManager:
         self.file_path_entry.pack(side=tk.LEFT, padx=(50,10), pady=20)
 
         # Button to apply file path filter
-        filter_button = ttk.Button(self.master, text="Search by Path", command=self.refresh_locks)
+        filter_button = ttk.Button(self.master, text="Find Path or IP", command=self.refresh_locks)
         filter_button.pack(side=tk.LEFT, pady=20)
 
         # Button to close file handle
@@ -185,6 +185,7 @@ class QumuloSMBLockManager:
         # Populate Treeview with SMB locks that match the filter criteria to enable search by Path
         for grant in smb_locks["grants"]:
             id = grant["file_id"]
+            holder_ip_address = grant["owner_address"]
             try:
               file_path = file_number_to_path[id]
             except:
@@ -194,7 +195,7 @@ class QumuloSMBLockManager:
                 # 'List Locks' action being triggered and many handles are beign closed.
                 print(f"File Handle {id} already closed?")
                 pass
-            if filter_text in file_path.lower():
+            if filter_text in file_path.lower() or filter_text in holder_ip_address.lower():
                 self.lock_tree.insert(
                     "",
                     "end",
@@ -318,4 +319,3 @@ if __name__ == "__main__":
     user_info = initial_response.json()
     app = QumuloSMBLockManager(root, token, cluster_address)
     root.mainloop()
-
