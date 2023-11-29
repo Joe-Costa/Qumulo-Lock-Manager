@@ -48,7 +48,7 @@ Mac:
 - `brew install python-tk`
 
 **Mac OS 14 Sonoma notice:** There is an issue with Tk and this Mac OS version that causes the GUI to be a blank white window with no buttons, you'll
-need to upgrade Python to 3.13.0a2, 3.12.1, or 3.11.7  (Tested working on 3.12-dev November 29, 2023)
+need to upgrade Python to `3.13.0a2``, `3.12.1``, or `3.11.7``  (Tested working on `3.12-dev` November 29, 2023)
 
 [More info at Python's Github](https://github.com/python/cpython/issues/110950)
 
