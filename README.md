@@ -1,6 +1,6 @@
 # Qumulo-Lock-Manager
 
-This script provides a `tkinter` based GUI to list and close SMB locks on a Qumulo cluster via the Qumulo REST API.  
+This script provides a Python based GUI to list and close SMB locks on a Qumulo cluster via the Qumulo REST API.  
 
 ## Why close file handles and what happens on the client when a file handle is closed?
 
