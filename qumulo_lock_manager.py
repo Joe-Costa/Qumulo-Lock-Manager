@@ -5,7 +5,7 @@ import requests
 import urllib3
 import sys
 
-version = "1.0.0.3"
+version = "1.0.3"
 who_am_i = ""
 
 # Update with your cluster address
