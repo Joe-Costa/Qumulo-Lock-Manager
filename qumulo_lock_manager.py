@@ -115,7 +115,7 @@ class QumuloSMBLockManager:
         self.file_path_entry = ttk.Entry(self.master, width=30)
         self.file_path_entry.pack(side=tk.LEFT, padx=(50,10), pady=20)
 
-        # Button to apply file path filter
+        # Button to apply file path filter or Holder IP address
         filter_button = ttk.Button(self.master, text="Find Path or IP", command=self.refresh_locks)
         filter_button.pack(side=tk.LEFT, pady=20)
 
@@ -234,7 +234,8 @@ class QumuloSMBLockManager:
                   url = f"https://{cluster_address}/api" + next
                 handles.extend(response['file_handles'])
 
-        # This will be used by functions findHandle and closeHandle
+        # This will be used by functions findHandle and closeHandle, this could be refactored into
+        # a single variable...
         handle_info = handles 
 
         # This contains a file ID to path k,v index of all open files, we need this to display paths in the
