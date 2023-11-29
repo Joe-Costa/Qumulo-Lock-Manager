@@ -17,7 +17,7 @@ token = "session-v1:your_token_here"
 # Disable InsecureRequestWarning from showing up in stdout; this is not needed if you have valid TLS certificates
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# The RBAC privileges requred for successful user of this script
+# The RBAC privileges requred for successful use of this script
 required_rights = ['PRIVILEGE_FS_LOCK_READ', 'PRIVILEGE_SMB_FILE_HANDLE_READ', 'PRIVILEGE_SMB_FILE_HANDLE_WRITE']
 
 # This class handles error redirection to the GUI
