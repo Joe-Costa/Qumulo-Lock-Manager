@@ -8,8 +8,19 @@ import sys
 version = "1.0.3"
 who_am_i = ""
 
-# Update with your cluster address
+# Update with your cluster's FQDN or IP address
 cluster_address = "your_server_here"
+
+'''
+Accepted access token formats:
+Session tokens (Auto-expiring, similar to the ones retrieved via the API tab in the cluster's Web UI)
+
+token = "session-v1:foobarbaz..."
+
+Bearer tokens (Long Term tokens, similar to ones retrieved via "qq auth_create_access_token"
+
+token = "access-v1:foobarbaz..."
+'''
 
 # Update with your bearer token
 token = "session-v1:your_token_here"
