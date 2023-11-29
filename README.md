@@ -61,9 +61,9 @@ This script requires a valid session token for a user with the following RBAC pr
 
 ## Installation:
 
-Install the `requirements.txt` file (Linux, Mac and Windows)
+Install the `requirements.txt` file (Linux, Mac and Windows):
 
-`pip install -r requirements.txt`
+  `pip install -r requirements.txt`
 
 Copy `qumulo_lock_manager.py` to your machine, make it executable with `chmod +x qumulo_lock_manager.py`
 
@@ -90,7 +90,7 @@ Run the script with `/path/to/script/qumulo_lock_manager.py`
 **_Always_** double check paths before closing any open file handles!!
 
 - Refresh the locks by clicking on the `List Locks` button
-- Search for paths by typing in a part of the desired path and clicking on the `Search by Path` button
+- Search for paths by typing in a part of the desired path or IP address of a Lock Holer (Client Machine) and clicking on the `Find Path or IP` button
   * The Locks view will automatically refresh   
 - Clear the search box and click on `Search by Path` to see all locks
 - To close a file handle, select the desired File ID / Path in the UI and click on the `Close File` button
