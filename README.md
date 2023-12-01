@@ -70,14 +70,17 @@ Install the `requirements.txt` file (Linux, Mac and Windows):
 
   `pip install -r requirements.txt`
 
-Copy `qumulo_lock_manager.py` to your machine, make it executable with `chmod +x qumulo_lock_manager.py`
+Copy `qumulo_lock_manager.py` and `qumulo_lock_manager.conf` to your machine, make the `.py` executable with `chmod +x qumulo_lock_manager.py`
 
+Keep both files in the same place!
 
-Edit `qumulo_lock_manager.py` and enter your cluster address and valid Access Token on these variables:
+Version 1.1.0 adds the ability to specify multiple clusters and a drop down menu to select them.
 
-- `cluster_address = "your.cluster.here.com"`  (FQDN or IP address)
+Edit `qumulo_lock_manager.conf` and enter your cluster addresses and valid Access Tokens on these variables:
 
-- `token = "session-v1:etc..etc..etc"`
+- `address = your.cluster.here.com`  (FQDN or IP address)
+
+- `token = session-v1:etc..etc..etc`
 
 ## Helpful Qumulo Care Articles:
 

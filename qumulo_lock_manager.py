@@ -4,31 +4,40 @@ from tkinter import ttk
 import requests
 import urllib3
 import sys
+import configparser
 
-version = "1.0.3"
+version = "1.1.0"
 who_am_i = ""
 
-# Update with your cluster's FQDN or IP address
-cluster_address = "your_server_here"
 
-'''
-Accepted access token formats:
-Session tokens (Auto-expiring, similar to the ones retrieved via the API tab in the cluster's Web UI)
+# Load the config file
+config = configparser.ConfigParser()
+config.read('qumulo_lock_manager.conf')
 
-token = "session-v1:foobarbaz..."
+# Build a dict of clusters from the config file
+cluster_list = {}
+for section in config.sections():
+    # Skip the DEFAULT section
+    if section != 'DEFAULT':
+        cluster_list[section] = dict(config.items(section))
 
-Bearer tokens (Long Term tokens, similar to ones retrieved via "qq auth_create_access_token"
-
-token = "access-v1:foobarbaz..."
-'''
-
-# Update with your bearer token
-token = "session-v1:your_token_here"
+# Choose the cluster set as the default
+for key in cluster_list.keys():
+    if cluster_list[key].get('default_option'):
+        cluster_address = cluster_list[key].get('address')
+        token = cluster_list[key].get('token')
+        default_cluster = key
+    # If 'default_option' is not set then choose the first cluster in the config
+    else:
+        cluster_address = cluster_list[list(cluster_list.keys())[0]].get('address')
+        token = cluster_list[list(cluster_list.keys())[0]].get('token')
+        default_cluster = key
 
 # Disable InsecureRequestWarning from showing up in stdout; this is not needed if you have valid TLS certificates
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+if config['DEFAULT'].getboolean('ignore_ssl'):
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# The RBAC privileges requred for successful use of this script
+# The RBAC privileges requred for successful user of this script
 required_rights = ['PRIVILEGE_FS_LOCK_READ', 'PRIVILEGE_SMB_FILE_HANDLE_READ', 'PRIVILEGE_SMB_FILE_HANDLE_WRITE']
 
 # This class handles error redirection to the GUI
@@ -50,18 +59,17 @@ class QumuloSMBLockManager:
     def __init__(self, master, token=token, cluster=cluster_address):
         self.master = master
 
+        # Set state of initial auto refresh
+        self.first_run = True
+
         # Qumulo Cluster Login Information
-        who_am_i = user_info['name']
         self.cluster_address = cluster
         self.token = token
-        self.headers = {
-            "Authorization": f"Bearer {self.token}",
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        }
+        self.update_headers(self.token)
+        self.who_am_i = self.update_name(self.cluster_address, self.token)
 
         # GUI Window title info
-        self.master.title(f"Qumulo SMB Lock Manager {version} - Cluster: {self.cluster_address}     Auth User: {who_am_i}")
+        # self.master.title(f"Qumulo SMB Lock Manager {version} - Cluster: {self.cluster_address}  Auth User: {who_am_i}")
 
         # Create GUI components
         self.create_widgets()
@@ -72,6 +80,16 @@ class QumuloSMBLockManager:
 
         # Verify user access level
         self.verify_rbac_privileges()
+
+        # Get initial set of Locks
+        self.refresh_locks()
+    
+    def update_headers(self, token):
+        self.headers = {
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
 
     @staticmethod
     def verify_rbac_privileges():
@@ -88,11 +106,43 @@ class QumuloSMBLockManager:
             print("Unable to proceed")
             return False
 
+    # Update Current User Name
+    def update_name(self, address, token):
+        url = f"https://{address}/api/v1/session/who-am-i"
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+        response = requests.get(url, headers=headers, verify=False)
+        self.verify_rbac_privileges()
+        self.who_am_i = response.json().get('name')
+
+    # Cluster selection menu action - Change cluster, token and who_am_i
+    def cluster_selector(self, *args):
+        selected_item = self.var.get()
+        if selected_item in cluster_list:
+            self.cluster_address = cluster_list[selected_item]['address']
+            self.token = cluster_list[selected_item]['token']
+            self.update_name(self.cluster_address,self.token)
+            self.update_headers(self.token)
+            self.master.title(f"Qumulo SMB Lock Manager {version} - Cluster: {self.cluster_address}  Auth User: {self.who_am_i}")
+        if not self.first_run:
+            self.refresh_locks()
+        self.first_run = False
+
     def create_widgets(self):
         # Frame for displaying SMB locks
         self.lock_frame = ttk.Frame(self.master)
         self.lock_frame.pack(padx=10, pady=10, expand=True, fill=tk.BOTH)
 
+        # Drop down menu for server selection
+        self.var = tk.StringVar(self.master)
+        self.var.trace_add("write", self.cluster_selector)
+        self.option_text = tk.Label(self.master, text="Selected Cluster:")
+        self.option_text.pack(side=tk.LEFT,padx=10,pady=10)
+        self.option_menu = ttk.OptionMenu(self.master, self.var, default_cluster, *cluster_list.keys())
+        self.option_menu.pack(side=tk.LEFT, padx=10, pady=10)
 
         # Treeview to display SMB locks
         self.lock_tree = ttk.Treeview(
@@ -116,7 +166,7 @@ class QumuloSMBLockManager:
 
         # Redirect stdout to the GUI
         self.text_widget = tk.Text(self.master, wrap=tk.WORD, height=4, font=("Helvetica", 16))
-        self.text_widget.pack(padx=20, pady=(10,5),fill=tk.BOTH)
+        self.text_widget.pack(side=tk.TOP, padx=5, pady=(5,5),fill=tk.BOTH)
 
         # Button to refresh SMB locks
         refresh_button = ttk.Button(self.master, text="List Locks", command=self.refresh_locks)
@@ -126,7 +176,7 @@ class QumuloSMBLockManager:
         self.file_path_entry = ttk.Entry(self.master, width=30)
         self.file_path_entry.pack(side=tk.LEFT, padx=(50,10), pady=20)
 
-        # Button to apply file path filter or Holder IP address
+        # Button to apply file path filter
         filter_button = ttk.Button(self.master, text="Find Path or IP", command=self.refresh_locks)
         filter_button.pack(side=tk.LEFT, pady=20)
 
@@ -184,6 +234,7 @@ class QumuloSMBLockManager:
                 plural = "s"
             print(f"{lock_count} lock{plural} found")
         except:
+            print(f"Did I break here? Token: {self.token} addr = {self.cluster_address}")
             # General error handler in case smb_locks fails
             return
 
@@ -245,8 +296,7 @@ class QumuloSMBLockManager:
                   url = f"https://{cluster_address}/api" + next
                 handles.extend(response['file_handles'])
 
-        # This will be used by functions findHandle and closeHandle, this could be refactored into
-        # a single variable...
+        # This will be used by functions findHandle and closeHandle
         handle_info = handles 
 
         # This contains a file ID to path k,v index of all open files, we need this to display paths in the
@@ -331,3 +381,4 @@ if __name__ == "__main__":
     user_info = initial_response.json()
     app = QumuloSMBLockManager(root, token, cluster_address)
     root.mainloop()
+
