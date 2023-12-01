@@ -6,7 +6,7 @@ import urllib3
 import sys
 import configparser
 
-version = "1.1.0"
+version = "1.1.0beta"
 who_am_i = ""
 
 
